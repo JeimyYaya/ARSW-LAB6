@@ -28,12 +28,23 @@ apimock=(function(){
 		},
 
 		getBlueprintsByNameAndAuthor:function(authname,bpname,callback){
-
 			callback(
 				mockdata[authname].find(function(e){return e.name===bpname})
 			);
+		},
+
+		updateBlueprint: function(authname, bpname, blueprint, callback) {
+			// Update the mockdata
+			const authorBlueprints = mockdata[authname];
+			const index = authorBlueprints.findIndex(bp => bp.name === bpname);
+			if (index !== -1) {
+				authorBlueprints[index] = blueprint;
+				callback(null); // Success
+			} else {
+				callback("Blueprint not found");
+			}
 		}
-	}	
+	}
 
 })();
 

@@ -13,8 +13,9 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
 
-    <script src="js/apimock.js"></script>
-    <script src="js/app.js"></script>
+  <script src="js/apiclient.js"></script>
+  <script src="js/blueprint.js"></script>
+  <script src="js/app.js"></script>
 
     <style>
     body {
@@ -30,8 +31,10 @@
     canvas {
       background: #fff;
       border: 1px solid #ddd;
-      width: 100%;
+      width: 500px;
       height: 300px;
+      max-width: 100%;
+      object-fit: contain;
     }
 
     #blueprintsTitle {
@@ -91,6 +94,10 @@
       <div class="col-md-6 text-center">
         <h4 id="currentBlueprintTitle">Current blueprint: <span id="currentBlueprintName">—</span></h4>
         <canvas id="blueprintCanvas" width="500" height="300"></canvas>
+        <button id="saveButton" class="btn btn-primary mt-3" style="margin-top: 10px;" disabled>Save/Update</button>
+        <button id="createBlueprintBtn" class="btn btn-warning mt-3" style="margin-top: 10px;">Create new blueprint</button>
+        <button id="deleteButton" class="btn btn-danger" style="margin-top: 10px;" disabled>Delete</button>
+
       </div>
     </div>
   </div>
@@ -98,10 +105,28 @@
 
     <script>
         $(document).ready(function () {
+            blueprintModule.init("#blueprintCanvas");
+
             $("#getBlueprintsBtn").click(function () {
                 var author = $("#authorInput").val();
+                if (!author) {
+                    alert("Please enter an author name");
+                    return;
+                }
                 app.setAuthor(author);
                 app.updateBlueprints(author);
+            });
+
+            $("#saveButton").click(function() {
+                app.saveCurrentBlueprint();
+            });
+
+            $("#createBlueprintBtn").click(function () {
+                app.createNewBlueprint && app.createNewBlueprint();
+            });
+
+            $("#deleteButton").click(function() {
+                app.deleteCurrentBlueprint();
             });
         });
     </script>

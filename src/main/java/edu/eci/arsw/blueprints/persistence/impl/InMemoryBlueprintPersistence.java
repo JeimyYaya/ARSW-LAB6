@@ -100,5 +100,12 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
             throw new BlueprintNotFoundException("No se encontró el plano para actualizar");
         }
     }
+
+    @Override
+    public void deleteBlueprint(String author, String name) {
+        Tuple<String, String> key = new Tuple<>(author, name);
+        blueprints.remove(key);
+    }
+
     
 }

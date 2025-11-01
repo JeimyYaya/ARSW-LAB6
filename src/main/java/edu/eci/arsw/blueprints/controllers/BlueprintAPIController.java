@@ -98,6 +98,24 @@ public class BlueprintAPIController {
         }
     }
 
+    @DeleteMapping("/{author}/{bpname}")
+    public ResponseEntity<?> deleteBlueprint(@PathVariable("author") String author, @PathVariable("bpname") String bpname) {
+        try {
+            Blueprint blueprint = blueprintServices.getBlueprint(author, bpname);
+            if (blueprint == null) {
+                return new ResponseEntity<>("Blueprint not found", HttpStatus.NOT_FOUND);
+            }
+
+            blueprintServices.deleteBlueprint(author, bpname);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BlueprintNotFoundException e) {
+            return new ResponseEntity<>("Blueprint not found", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal server error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+}
+
+
 
 }
 
